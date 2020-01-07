@@ -1,0 +1,20 @@
+.loading-screen {
+  display: flex;
+  flex-direction: column;
+  width: 98vw;
+  height: 98vh;
+  border-radius: 10px;
+  border: 10px solid #ddd;
+  background: #222;
+  justify-content: center;
+  align-items: center;
+}
+
+.loading-screen svg {
+  width: 150px;
+  height: 150px;
+}
+
+.status {
+  color: #fff;
+}

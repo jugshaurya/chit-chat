@@ -4,6 +4,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 - https://ui-avatars.com/api/?font-size=0.5
 - `https://api.adorable.io/avatars/285/${email}.png`
+- add attributon to loading.io
+- https://loading.io/
 
 ## Available Scripts
 
