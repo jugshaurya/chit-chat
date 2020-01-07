@@ -1,5 +1,10 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+# Thank
+
+- https://ui-avatars.com/api/?font-size=0.5
+- `https://api.adorable.io/avatars/285/${email}.png`
+
 ## Available Scripts
 
 In the project directory, you can run:
