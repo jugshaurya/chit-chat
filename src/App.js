@@ -1,3 +1,7 @@
+import $ from "jquery";
+import Popper from "popper.js";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min";
 import React from "react";
 import { connect } from "react-redux";
 import { Switch, Route, withRouter } from "react-router-dom";
@@ -22,7 +26,11 @@ class App extends React.Component {
           <Switch>
             <Route path="/signup" component={Signup} />
             <Route path="/login" component={Login} />
-            <Route exact path="/" component={Homepage} />
+            <Route
+              exact
+              path="/"
+              render={() => <Homepage user={this.props.user} />}
+            />
           </Switch>
         </main>
       </div>
