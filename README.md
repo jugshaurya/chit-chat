@@ -21,20 +21,30 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
   - [ ] 2. User Info Section to describe the user data profile
 
-    - [ ] Add change Avatar
+    - [x] Add change Avatar
     - [ ] Show Welcome \${user.displayName}
-    - [ ] show Avatar
-    - [ ] Add Sign-out Button
+    - [x] show Avatar
+    - [x] Add Sign-out Button
 
   - [ ] 3. Channels section to store all the channels per server
 
-    - [ ] @front-end : add a button to add channels and show form instead of extras area.
-    - [ ] @firebase : Add channel model to database with properties channel name & channel description.
-    - [ ] @front-end :Show all the available channels on the channel area for a given server
+    - [x] @front-end : add a button to add channels and show form instead of extras area.
+    - [x] @firebase : Add channel model to database with properties channel name & channel description regitered under logged in User.
+    - [x] @front-end :Show all the available channels on the channel area for a given server
+    - [x] Add Active/selected Channel to redux so to get all the messages for active channel.
 
 * [ ] 4. Mesage Board for specific Channel
+  - [ ] show Current Active Channel Name inside message Board
+  - [ ] Show all the Active Channel Messages already stored in db
+  - [ ] Add new Messages form to add new Messages
+    - messages Node Structure
+      - id
+      - channelId
+      - message description
+      - createdBy: User ID
+      - createdAt: DateTime
 * [ ] 5. Extras Section to add additional Functionality to the chit chat app
-
+  - [x] Add create Channel Form
 *
 
 # Thank
