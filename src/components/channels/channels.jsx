@@ -17,7 +17,7 @@ class Channels extends Component {
   componentWillUnmount() {
     // https://firebase.google.com/docs/database/web/lists-of-data#detach_listeners
     // console.log("Detached!");
-    // Problem Not Working ????? Raise an Issue
+    // Problem Not Working ????? Raised an Issue
     // database.ref("/channels").off("child_added");
   }
 

@@ -37,8 +37,7 @@ const channelsReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         isCreatingChannel: false,
-        isAddChannelFormOpen: false,
-        channels: [...state.channels, action.payload]
+        isAddChannelFormOpen: false
       };
     case channelActionTypes.ADD_CHANNEL_FAILURE:
       return {
