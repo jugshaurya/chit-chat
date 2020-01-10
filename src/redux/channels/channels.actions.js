@@ -14,6 +14,13 @@ export const setCurrentChannel = channel => ({
   payload: channel
 });
 
+//  get all the channels
+export const getAllChannels = channels => ({
+  type: channelsActionTypes.GET_ALL_CHANNELS,
+  payload: channels
+});
+
+// ASYNC
 const addChannelASYNCStart = () => ({
   type: channelsActionTypes.ADD_CHANNEL_START
 });
@@ -46,36 +53,5 @@ export const addChannelASYNC = (name, description) => async (
   } catch (err) {
     console.error(err);
     dispatch(addChannelASYNCFailure());
-  }
-};
-
-//  get all the cchannels
-const getAllChannelsASYNCStart = () => ({
-  type: channelsActionTypes.GET_ALL_CHANNELS_START
-});
-
-const getAllChannelsASYNCSuccess = channels => ({
-  type: channelsActionTypes.GET_ALL_CHANNELS_SUCCESS,
-  payload: channels
-});
-
-const getAllChannelsASYNCFailure = () => ({
-  type: channelsActionTypes.GET_ALL_CHANNELS_FAILURE
-});
-
-export const getAllChannelsASYNC = () => dispatch => {
-  dispatch(getAllChannelsASYNCStart());
-  try {
-    // https://firebase.google.com/docs/database/web/lists-of-data#listen_for_child_events
-    let channels = [];
-    // This event is triggered once for each existing child
-    //  Note: Don't forget to call detatchListeners in componentWIllUnmount
-    database.ref("/channels").on("child_added", dataSnap => {
-      channels.push({ ...dataSnap.val(), id: dataSnap.key });
-      dispatch(getAllChannelsASYNCSuccess(channels));
-    });
-  } catch (err) {
-    console.error(err);
-    dispatch(getAllChannelsASYNCFailure());
   }
 };

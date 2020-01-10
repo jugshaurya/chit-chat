@@ -2,7 +2,6 @@ import channelActionTypes from "./channels.types";
 
 const INITIAL_STATE = {
   channels: [],
-  isFetchingChannels: false,
   isCreatingChannel: false,
   isAddChannelFormOpen: false,
   currentChannel: null
@@ -46,22 +45,11 @@ const channelsReducer = (state = INITIAL_STATE, action) => {
         isAddChannelFormOpen: false
       };
 
-    case channelActionTypes.GET_ALL_CHANNELS_START:
+    case channelActionTypes.GET_ALL_CHANNELS:
       return {
         ...state,
-        isFetchingChannels: true
-      };
-
-    case channelActionTypes.GET_ALL_CHANNELS_SUCCESS:
-      return {
-        ...state,
-        isFetchingChannels: false,
+        // isFetchingChannels: false,
         channels: action.payload
-      };
-    case channelActionTypes.GET_ALL_CHANNELS_FAILURE:
-      return {
-        ...state,
-        isFetchingChannels: false
       };
     default:
       return state;
