@@ -1,9 +1,7 @@
 import messageActionTypes from "./messages.types";
 
 const INITIAL_STATE = {
-  messages: [],
-  isFetchingMessages: false,
-  isAddingMessage: null
+  isAddingMessage: false
 };
 
 const messagesReducer = (state = INITIAL_STATE, action) => {
@@ -24,23 +22,6 @@ const messagesReducer = (state = INITIAL_STATE, action) => {
         isAddingMessage: false
       };
 
-    case messageActionTypes.GET_ALL_CHANNEL_MESSAGES_START:
-      return {
-        ...state,
-        isFetchingMessages: true
-      };
-
-    case messageActionTypes.GET_ALL_CHANNEL_MESSAGES_SUCCESS:
-      return {
-        ...state,
-        isFetchingMessages: false,
-        messages: action.payload
-      };
-    case messageActionTypes.GET_ALL_CHANNEL_MESSAGES_FAILURE:
-      return {
-        ...state,
-        isFetchingMessages: false
-      };
     default:
       return state;
   }

@@ -7,7 +7,7 @@ const LoadingScreen = props => {
       <div>
         <LoadingIcon />
       </div>
-      <div className="status">Loading Chat...</div>
+      <div className="status">{props.text}</div>
     </div>
   );
 };

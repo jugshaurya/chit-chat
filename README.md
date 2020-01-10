@@ -47,12 +47,21 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
   - [x] Add create Channel Form
 *
 
+- making sure we have user value set before entering homepage
+- Remounting the comopnent message board when channel changes
+- solved the issue of .off()
+
 # Thank
 
 - https://ui-avatars.com/api/?font-size=0.5
 - `https://api.adorable.io/avatars/285/${email}.png`
 - add attributon to loading.io
 - https://loading.io/ -<div>Icons made by <a href="https://www.flaticon.com/authors/itim2101" title="itim2101">itim2101</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+
+- https://www.geeksforgeeks.org/firebase-realtime-database-with-operations-in-android-with-examples/
+
+- https://spectrum.chat/react/general/how-to-remount-refresh-a-react-component~7119779f-245f-4c1b-bcdb-a01c00cdb1e6
+  (Solved: How to remount the component instead of re-rendering if a prop if changed for that component )
 
 ## Available Scripts
 
