@@ -20,7 +20,11 @@ export const getUserASYNC = history => dispatch => {
   auth.onAuthStateChanged(
     user => {
       dispatch(getUserSuccess(user));
-      history.push("/");
+      if (user) {
+        history.push("/");
+      } else {
+        history.push("/login");
+      }
     },
     error => {
       dispatch(getUserFailure(error));

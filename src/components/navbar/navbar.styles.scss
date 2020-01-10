@@ -1,0 +1,25 @@
+.fixed-top {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 1030;
+}
+
+.navbar-left-text {
+  letter-spacing: 0.2rem;
+  font-weight: 600;
+}
+
+.profile {
+  img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+  }
+}
+
+svg {
+  height: 40px;
+  width: auto;
+}

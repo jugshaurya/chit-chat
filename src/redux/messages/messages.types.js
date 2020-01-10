@@ -1,0 +1,7 @@
+const messagesActionTypes = {
+  ADD_MESSAGE_START: "ADD_MESSAGE_START",
+  ADD_MESSAGE_SUCCESS: "ADD_MESSAGE_SUCCESS",
+  ADD_MESSAGE_FAILURE: "ADD_MESSAGE_FAILURE"
+};
+
+export default messagesActionTypes;
