@@ -2,12 +2,15 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { database } from "../../firebase/firebase";
 
-import { addMessageASYNC } from "../../redux/messages/messages.actions";
+import {
+  addMessageASYNC,
+  openUploadMediaForm
+} from "../../redux/messages/messages.actions";
 
 import "./message-board.styles.scss";
 
 class MessageBoard extends Component {
-  state = { message: "", realtimeMessages: [] };
+  state = { message: "", file: "", realtimeMessages: [] };
 
   handleChange = e => {
     const { name, value } = e.target;
@@ -16,7 +19,13 @@ class MessageBoard extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    this.props.addMessageASYNC(this.state.message);
+    this.props.addMessageASYNC({ type: "text", message: this.state.message });
+  };
+
+  handleMediaUpload = e => {
+    const file = e.target.files[0];
+    console.log(file);
+    this.setState({ file });
   };
 
   componentDidMount() {
@@ -52,9 +61,22 @@ class MessageBoard extends Component {
         <h3>{currentChannel && currentChannel.name}</h3>
 
         <ul>
-          {realtimeMessages.map(message => (
-            <li key={message.id}>{message.message}</li>
-          ))}
+          {realtimeMessages.map(message => {
+            if (message.image) {
+              return (
+                <li key={message.id}>
+                  <img
+                    src={message.image}
+                    alt="Uploadedimg"
+                    width="100"
+                    height="100"
+                  />
+                </li>
+              );
+            } else {
+              return <li key={message.id}>{message.message}</li>;
+            }
+          })}
         </ul>
 
         <div>
@@ -85,6 +107,18 @@ class MessageBoard extends Component {
               </button>
             </form>
           )}
+          <br />
+          {this.props.isUploadFormOpen ? (
+            <div>Select File from Extra section</div>
+          ) : (
+            <button
+              className="btn btn-primary px-2"
+              type="button"
+              onClick={this.props.openUploadMediaForm}
+            >
+              Upload Media
+            </button>
+          )}
         </div>
       </div>
     );
@@ -92,11 +126,13 @@ class MessageBoard extends Component {
 }
 
 const mapStateToProps = state => ({
-  isAddingMessage: state.messages.isAddingMessage
+  isAddingMessage: state.messages.isAddingMessage,
+  isUploadFormOpen: state.messages.isUploadFormOpen
 });
 
 const mapDispatchToProps = dispatch => ({
-  addMessageASYNC: message => dispatch(addMessageASYNC(message))
+  addMessageASYNC: message => dispatch(addMessageASYNC(message)),
+  openUploadMediaForm: () => dispatch(openUploadMediaForm())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MessageBoard);

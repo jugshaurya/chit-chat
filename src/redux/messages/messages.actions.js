@@ -1,5 +1,13 @@
 import messagesActionTypes from "./messages.types";
-import { database } from "../../firebase/firebase";
+import firebase, { database } from "../../firebase/firebase";
+
+export const closeUploadMediaForm = () => ({
+  type: messagesActionTypes.CLOSE_UPLOAD_MEDIA_FORM
+});
+
+export const openUploadMediaForm = () => ({
+  type: messagesActionTypes.OPEN_UPLOAD_MEDIA_FORM
+});
 
 const addMessageASYNCStart = () => ({
   type: messagesActionTypes.ADD_MESSAGE_START
@@ -20,17 +28,38 @@ export const addMessageASYNC = message => async (dispatch, getState) => {
 
   const newMessageRef = database.ref(`/messages/${currentChannelId}`).push();
   const user = getState().user.user;
-  try {
-    await newMessageRef.set({
-      message,
-      createdBy: {
-        userId: user.uid
-      },
-      createdAt: new Date()
-    });
-    dispatch(addMessageASYNCSuccess());
-  } catch (err) {
-    console.error(err);
-    dispatch(addMessageASYNCFailure());
+  if (message.type === "image") {
+    console.log(message.url, "saorywiq");
+    try {
+      await newMessageRef.set({
+        image: message.url,
+        createdBy: {
+          userId: user.uid
+        },
+        // https://firebase.google.com/docs/reference/js/firebase.database.ServerValue
+        createdAt: firebase.database.ServerValue.TIMESTAMP
+      });
+      dispatch(addMessageASYNCSuccess());
+    } catch (err) {
+      console.error(err);
+      dispatch(addMessageASYNCFailure());
+    }
+  } else {
+    // type is text
+
+    try {
+      await newMessageRef.set({
+        message: message.message,
+        createdBy: {
+          userId: user.uid
+        },
+        // https://firebase.google.com/docs/reference/js/firebase.database.ServerValue
+        createdAt: firebase.database.ServerValue.TIMESTAMP
+      });
+      dispatch(addMessageASYNCSuccess());
+    } catch (err) {
+      console.error(err);
+      dispatch(addMessageASYNCFailure());
+    }
   }
 };

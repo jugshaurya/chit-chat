@@ -17,7 +17,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 - [x] Discord have five sections
 
-  - [ ] 1.  Servers section to store all the user joined servers
+  - [ ] 1.  Servers section to store all the user joined servers +user created servers
 
   - [ ] 2. User Info Section to describe the user data profile
 
@@ -34,22 +34,20 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
     - [x] Add Active/selected Channel to redux so to get all the messages for active channel.
 
 * [ ] 4. Mesage Board for specific Channel
-  - [ ] show Current Active Channel Name inside message Board
-  - [ ] Show all the Active Channel Messages already stored in db
-  - [ ] Add new Messages form to add new Messages
+
+  - [x] show Current Active Channel Name inside message Board
+  - [x] Show all the Active Channel Messages already stored in db
+  - [x] Add new Messages form to add new Messages
     - messages Node Structure
       - id
       - channelId
       - message description
       - createdBy: User ID
       - createdAt: DateTime
+
 * [ ] 5. Extras Section to add additional Functionality to the chit chat app
   - [x] Add create Channel Form
-*
-
-- making sure we have user value set before entering homepage
-- Remounting the comopnent message board when channel changes
-- solved the issue of .off()
+  - [ ] Add upload A File Form
 
 # Thank
 
