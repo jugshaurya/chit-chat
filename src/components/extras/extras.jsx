@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { storage } from "../../firebase/firebase";
+import uuidv5 from "uuid/v5";
 import {
   addChannelASYNC,
   closeAddChannelForm
@@ -51,10 +52,16 @@ class Extras extends Component {
         file.type === "image/jpg")
     ) {
       console.log(file);
+      const uuidvalue = uuidv5(`file.name/${Date.now()}`, uuidv5.DNS);
+      console.log(uuidvalue);
+
+      var metadata = {
+        contentType: file.type
+      };
       const uploadTask = storage
         .ref()
-        .child("images/" + file.name)
-        .put(file);
+        .child(`images/${uuidvalue}-${file.name}`)
+        .put(file, metadata);
 
       this.setState({ uploading: true });
       uploadTask.on(

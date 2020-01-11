@@ -17,7 +17,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 - [x] Discord have five sections
 
-  - [ ] 1.  Servers section to store all the user joined servers +user created servers
+  - [ ] 1.  Servers section to store all the user joined servers + user created servers
 
   - [ ] 2. User Info Section to describe the user data profile
 
@@ -47,7 +47,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 * [ ] 5. Extras Section to add additional Functionality to the chit chat app
   - [x] Add create Channel Form
-  - [ ] Add upload A File Form
+  - [x] Add upload File Form and store the image in firebase storage
 
 # Thank
 
