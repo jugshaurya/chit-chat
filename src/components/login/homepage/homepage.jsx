@@ -8,7 +8,6 @@ import Servers from "../servers/servers";
 import UserInfo from "../userInfo/userInfo";
 
 import "./homepage.styles.scss";
-import MessageIndividuals from "../message-individual";
 
 // Now Homepage will only be shown if there is User in store, hence user cannot be null here
 class Homepage extends Component {
@@ -19,10 +18,9 @@ class Homepage extends Component {
       <div className="homepage container-fluid">
         <div className="row">
           <div className="col-4">
-            <div className="row">
+            <div className="row ">
               <Servers />
               <Channels />
-              <MessageIndividuals />
             </div>
             <div className="row">
               <UserInfo user={user} />

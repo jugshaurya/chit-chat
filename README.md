@@ -45,6 +45,9 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
       - createdBy: username, userPhoto URL
       - createdAt: DateTime
   - [x] Add User Info infront of a message
+  - [x] All Individual Person messages
+
+  - [x] Add Online and offline User Firebase
 
 * [ ] 5. Extras Section to add additional Functionality to the chit chat app
   - [x] Add create Channel Form
