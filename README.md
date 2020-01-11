@@ -42,8 +42,9 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
       - id
       - channelId
       - message description
-      - createdBy: User ID
+      - createdBy: username, userPhoto URL
       - createdAt: DateTime
+  - [x] Add User Info infront of a message
 
 * [ ] 5. Extras Section to add additional Functionality to the chit chat app
   - [x] Add create Channel Form
@@ -59,7 +60,9 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 - https://www.geeksforgeeks.org/firebase-realtime-database-with-operations-in-android-with-examples/
 
 - https://spectrum.chat/react/general/how-to-remount-refresh-a-react-component~7119779f-245f-4c1b-bcdb-a01c00cdb1e6
-  (Solved: How to remount the component instead of re-rendering if a prop if changed for that component )
+  (Solved: How to remount the component instead of re-rendering if a prop if changed for that component).
+- https://stackoverflow.com/questions/37444685/store-files-with-unique-random-names && https://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript
+  (Solved: storage images are saved with file names that are unique for even same images. Issue #5 solved).
 
 ## Available Scripts
 

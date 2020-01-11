@@ -61,22 +61,22 @@ class MessageBoard extends Component {
         <h3>{currentChannel && currentChannel.name}</h3>
 
         <ul>
-          {realtimeMessages.map(message => {
-            if (message.image) {
-              return (
-                <li key={message.id}>
-                  <img
-                    src={message.image}
-                    alt="Uploadedimg"
-                    width="100"
-                    height="100"
-                  />
-                </li>
-              );
-            } else {
-              return <li key={message.id}>{message.message}</li>;
-            }
-          })}
+          {realtimeMessages.map(message => (
+            <li key={message.id}>
+              {message.image ? (
+                <img
+                  src={message.image}
+                  alt="Uploadedimg"
+                  width="100"
+                  height="100"
+                />
+              ) : (
+                <div>{message.message}</div>
+              )}
+              <div>{message.createdBy.username}</div>
+              <div>{message.createdBy.avatarURL}</div>
+            </li>
+          ))}
         </ul>
 
         <div>

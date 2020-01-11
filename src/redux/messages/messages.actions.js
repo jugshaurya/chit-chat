@@ -34,7 +34,8 @@ export const addMessageASYNC = message => async (dispatch, getState) => {
       await newMessageRef.set({
         image: message.url,
         createdBy: {
-          userId: user.uid
+          username: user.displayName,
+          avatarURL: user.photoURL
         },
         // https://firebase.google.com/docs/reference/js/firebase.database.ServerValue
         createdAt: firebase.database.ServerValue.TIMESTAMP
@@ -51,7 +52,8 @@ export const addMessageASYNC = message => async (dispatch, getState) => {
       await newMessageRef.set({
         message: message.message,
         createdBy: {
-          userId: user.uid
+          username: user.displayName,
+          avatarURL: user.photoURL
         },
         // https://firebase.google.com/docs/reference/js/firebase.database.ServerValue
         createdAt: firebase.database.ServerValue.TIMESTAMP
