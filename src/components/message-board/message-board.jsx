@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { database } from "../../firebase/firebase";
+import "emoji-mart/css/emoji-mart.css";
+import { Picker } from "emoji-mart";
 
 import {
   addMessageASYNC,
@@ -10,7 +12,13 @@ import {
 import "./message-board.styles.scss";
 
 class MessageBoard extends Component {
-  state = { message: "", file: "", realtimeMessages: [] };
+  state = {
+    message: "",
+    file: "",
+    realtimeMessages: [],
+    numberOfUniqueUsers: 0,
+    openEmojiPicker: false
+  };
 
   handleChange = e => {
     const { name, value } = e.target;
@@ -43,10 +51,30 @@ class MessageBoard extends Component {
         .ref(`/messages/${currentChannelId}`)
         .on("child_added", dataSnap => {
           realtimeMessages.push({ ...dataSnap.val(), id: dataSnap.key });
-          this.setState({ realtimeMessages: realtimeMessages });
+          this.setState({
+            realtimeMessages: realtimeMessages,
+            numberOfUniqueUsers: realtimeMessages.reduce((acc, message) => {
+              if (!acc.includes(message.createdBy.username)) {
+                acc.push(message.createdBy.username);
+              }
+              return acc;
+            }, []).length
+          });
         });
     }
   }
+
+  addEmoji = e => {
+    console.log(e.native);
+    let emoji = e.native;
+    this.setState({
+      message: this.state.message + emoji
+    });
+  };
+
+  togglePickEmoji = () => {
+    this.setState({ openEmojiPicker: !this.state.openEmojiPicker });
+  };
 
   componentWillUnmount() {
     database.ref(`/messages`).off();
@@ -54,31 +82,33 @@ class MessageBoard extends Component {
 
   render() {
     const { currentChannel, isAddingMessage } = this.props;
-    const { message, realtimeMessages } = this.state;
+    const { message, realtimeMessages, numberOfUniqueUsers } = this.state;
     return (
       <div id="message-board" className="col-12">
-        <h2>MessageBoard Area</h2>
-        <h3>{currentChannel && currentChannel.name}</h3>
+        <div style={{ width: "60vw", height: "60vh", overflowY: "scroll" }}>
+          <h2>MessageBoard Area</h2>
+          <h3>{currentChannel && currentChannel.name}</h3>
+          <h6>{numberOfUniqueUsers} Users</h6>
 
-        <ul>
-          {realtimeMessages.map(message => (
-            <li key={message.id}>
-              {message.image ? (
-                <img
-                  src={message.image}
-                  alt="Uploadedimg"
-                  width="100"
-                  height="100"
-                />
-              ) : (
-                <div>{message.message}</div>
-              )}
-              <div>{message.createdBy.username}</div>
-              <div>{message.createdBy.avatarURL}</div>
-            </li>
-          ))}
-        </ul>
-
+          <ul>
+            {realtimeMessages.map(message => (
+              <li key={message.id}>
+                {message.image ? (
+                  <img
+                    src={message.image}
+                    alt="Uploadedimg"
+                    width="100"
+                    height="100"
+                  />
+                ) : (
+                  <div>{message.message}</div>
+                )}
+                <div>{message.createdBy.username}</div>
+                <div>{message.createdBy.avatarURL}</div>
+              </li>
+            ))}
+          </ul>
+        </div>
         <div>
           Add new Messages form
           {isAddingMessage ? (
@@ -119,6 +149,15 @@ class MessageBoard extends Component {
               Upload Media
             </button>
           )}
+          <br />
+          <div onClick={this.togglePickEmoji}>Pick Emoji</div>
+          <span
+            style={{
+              visibility: `${this.state.openEmojiPicker ? "visible" : "hidden"}`
+            }}
+          >
+            <Picker onSelect={this.addEmoji} />
+          </span>
         </div>
       </div>
     );

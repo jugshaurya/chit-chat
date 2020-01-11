@@ -64,6 +64,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 - https://stackoverflow.com/questions/37444685/store-files-with-unique-random-names && https://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript
   (Solved: storage images are saved with file names that are unique for even same images. Issue #5 solved).
 
+- https://medium.com/@allegra9/add-emoji-picker-to-your-react-chat-app-30d8cbe8d9a6
+
 ## Available Scripts
 
 In the project directory, you can run:
