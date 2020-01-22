@@ -9,7 +9,6 @@ import {
 } from "../../redux/channels/channels.actions";
 
 import { ReactComponent as AddChannelIcon } from "../../assets/addChannel.svg";
-import "./channels.styles.scss";
 
 class Channels extends Component {
   state = {
@@ -42,6 +41,13 @@ class Channels extends Component {
     setCurrentChannel(channel);
   }
 
+  componentDidUpdate() {
+    // Setting initial Active Channel
+    if (this.props.channels.length > 0 && !this.props.currentChannel) {
+      this.setInitialCurrentChannel(this.props.channels[0]);
+    }
+  }
+
   render() {
     const {
       channels,
@@ -51,39 +57,40 @@ class Channels extends Component {
     } = this.props;
 
     return (
-      <>
-        <div id="channels-area" className="col-10">
-          {channels.length > 0 && !currentChannel ? (
-            // Setting initial Active Channel
-            this.setInitialCurrentChannel(channels[0])
-          ) : (
-            <>
-              <h2>Channels Area</h2>
+      <div id="channels">
+        <h3>selected server</h3>
+        <hr />
+        <div>
+          <div className="text-channels">
+            <div className="channel-heading">
+              Text Channels ({channels.length})
+            </div>
+            <div className="add-channel">
               {!isAddChannelFormOpen && (
                 <AddChannelIcon onClick={this.handleAddChannel} />
               )}
-              <br /> Channels <span>{channels.length}</span>
-              <br />
-              <ul>
-                {channels.map(channel => (
-                  <li
-                    key={channel.id}
-                    className={
-                      currentChannel && currentChannel.id === channel.id
-                        ? "alert alert-info"
-                        : null
-                    }
-                  >
-                    <div onClick={() => setCurrentChannel(channel)}>
-                      {channel.name}
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </>
-          )}
+            </div>
+          </div>
+          <div>
+            <ul>
+              {channels.map(channel => (
+                <li
+                  key={channel.id}
+                  className={
+                    currentChannel && currentChannel.id === channel.id
+                      ? "highlight"
+                      : null
+                  }
+                >
+                  <div onClick={() => setCurrentChannel(channel)}>
+                    # {channel.name}
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
-      </>
+      </div>
     );
   }
 }

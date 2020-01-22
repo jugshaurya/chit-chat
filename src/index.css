@@ -1,4 +1,4 @@
-* {
+/* * {
   font-size: 1.1rem;
   color: #212529;
 }
@@ -26,7 +26,7 @@ body::-webkit-scrollbar-track {
 body::-webkit-scrollbar-thumb {
   background: linear-gradient(45deg, #111, #000);
   outline: 10px solid #212529;
-}
+} */
 
 /* body {
   padding: 1vh 1vw;

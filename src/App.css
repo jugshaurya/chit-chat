@@ -1,12 +1,329 @@
-article,
-aside,
-figcaption,
-figure,
-footer,
-header,
-hgroup,
-main,
-nav,
-section {
-  display: block;
+.App {
+  text-align: center;
+  box-sizing: border-box;
+  background: #598;
+}
+
+.homepage {
+  /* padding-top: 4rem; */
+  display: grid;
+  grid-template-columns: 5% 25% auto 20%;
+  grid-template-rows: auto;
+  grid-template-areas:
+    "servers channels message-board extra"
+    "userinfo userinfo message-board extra";
+}
+
+.item-a {
+  grid-area: servers;
+}
+.item-b {
+  grid-area: channels;
+}
+.item-c {
+  grid-area: message-board;
+}
+.item-d {
+  grid-area: extra;
+}
+
+.item-e {
+  grid-area: userinfo;
+}
+
+/* servers.jsx */
+#servers {
+  background-color: #17141d;
+  width: 100%;
+  padding: 10px;
+  height: 100%;
+}
+
+#servers svg {
+  width: 60%;
+  margin: 10px;
+  height: auto;
+}
+
+/* channels.jsx */
+#channels {
+  background: #444;
+  color: white;
+  height: 100%;
+  padding: 10px;
+  width: 100%;
+}
+
+#channels h3 {
+  box-shadow: inset 2px 2px 2px #17141d, 2px 2px 2px #17141d;
+}
+
+#channels .text-channels {
+  display: flex;
+  background: #666;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2px 10px;
+}
+
+#channels svg {
+  width: 20px;
+  height: auto;
+}
+
+#channels .channel-heading {
+  text-transform: uppercase;
+  font-size: 0.9em;
+}
+
+#channels ul {
+  overflow-y: scroll;
+  height: 500px;
+  margin-top: 10px;
+  list-style: none;
+  padding: 0;
+  text-align: left;
+}
+
+#channels ul::-webkit-scrollbar {
+  width: 0.2em;
+}
+
+#channels ul::-webkit-scrollbar-thumb {
+  background: linear-gradient(45deg, #fff, #000);
+}
+
+#channels ul li {
+  padding: 8px;
+}
+
+#channels .highlight {
+  background: #999;
+  opacity: 0.6;
+  font-weight: bold;
+}
+
+/* Individual Messages */
+
+/* Userinfo */
+#user-info {
+  display: grid;
+  grid-template-columns: 1fr 5fr 1fr;
+  grid-template-rows: auto;
+  grid-template-areas: "avatar search-channel signout";
+  background: #555;
+  border: 3px solid black;
+  color: white;
+}
+
+#user-info .item-a {
+  grid-area: avatar;
+  position: relative;
+  padding: 5px 10px;
+}
+
+#user-info .item-b {
+  grid-area: search-channel;
+}
+
+#user-info .item-c {
+  grid-area: signout;
+}
+
+#user-info img {
+  width: 50px;
+  height: auto;
+  border-radius: 50%;
+}
+
+#user-info .status {
+  position: absolute;
+  border-radius: 50%;
+  bottom: 5px;
+  right: 5px;
+  width: 24px;
+}
+
+#user-info .green {
+  background: green;
+  color: green;
+}
+
+#user-info .red {
+  color: red;
+  background: red;
+}
+
+#user-info svg {
+  width: 25px;
+  height: auto;
+}
+
+#user-info .search-channel {
+  display: flex;
+  padding: 20px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#user-info .username {
+  font-weight: 600;
+  font-size: 1.2em;
+}
+
+#user-info .search-channel-form {
+  display: flex;
+  justify-content: space-between;
+}
+
+#user-info .search-channel-form input {
+  width: 70%;
+  border-radius: 5%;
+  padding: 0 10px;
+}
+
+#user-info .search-channel-form button {
+  width: 25%;
+  color: white;
+  background: #999;
+  margin-left: 5%;
+  border-radius: 8%;
+}
+
+#user-info .signout {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* MessageBoard.jsx */
+#message-board {
+  background: rgb(240, 248, 255);
+  padding: 10px;
+}
+
+#message-board header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 20px;
+  border: 2px solid royalblue;
+  box-shadow: 2px 5px 10px royalblue;
+}
+
+#message-board main {
+  background: #212529;
+  height: 550px;
+  overflow-y: scroll;
+  color: #fff;
+  padding: 10px;
+}
+
+#message-board main::-webkit-scrollbar {
+  width: 0.6em;
+}
+
+#message-board main::-webkit-scrollbar-thumb {
+  background: linear-gradient(45deg, #fff, #aaa);
+}
+
+#message-board main ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#message-board main li {
+  display: flex;
+  margin: 10px 0px;
+}
+
+#message-board main ul li .avatar img {
+  width: 40px;
+  border-radius: 50%;
+  margin-right: 20px;
+}
+
+#message-board main ul li .user-and-message {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding-left: 10px;
+}
+
+#message-board main ul li .user-and-time .user {
+  color: orange;
+}
+
+#message-board main ul li .user-and-time .time {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.6em;
+  margin-left: 5px;
+  align-self: flex-start;
+}
+
+#message-board footer form {
+  display: flex;
+  margin-top: 10px;
+  position: relative;
+}
+
+#message-board footer form .button-emoji,
+#message-board footer form .button-submit,
+#message-board footer form .button-upload {
+  width: 7%;
+  background: #17141d;
+  padding: 2px 2px;
+  color: #fff;
+}
+
+#message-board footer form input {
+  width: 80%;
+  padding: 0 10px;
+  border: 2px solid #17141d;
+}
+
+#message-board footer form span.emoji-picker {
+  position: absolute;
+  bottom: 42px;
+  width: 100%;
+  right: 20px;
+}
+
+.emoji-mart-preview,
+.emoji-mart-search,
+.emoji-mart-category-label {
+  display: none;
+}
+
+.emoji-mart-scroll::-webkit-scrollbar {
+  width: 0.6em;
+}
+
+.emoji-mart-scroll::-webkit-scrollbar-thumb {
+  background: linear-gradient(45deg, #000, #111);
+}
+
+/* Loading Screen */
+.loading-screen {
+  display: flex;
+  flex-direction: column;
+  width: 98vw;
+  height: 98vh;
+  border-radius: 10px;
+  border: 10px solid #ddd;
+  background: #222;
+  justify-content: center;
+  align-items: center;
+}
+
+.loading-screen svg {
+  width: 150px;
+  height: 150px;
+}
+
+.status {
+  color: #fff;
 }

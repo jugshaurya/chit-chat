@@ -2,9 +2,9 @@ import React from "react";
 import { Switch, Route, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
-import Login from "./components/login/login";
-import Signup from "./components/signup/signup";
-import Homepage from "./components/homepage/homepage";
+import Login from "./components/pages/login/login";
+import Signup from "./components/pages/signup/signup";
+import Homepage from "./components/pages/homepage/homepage";
 import Navbar from "./components/navbar/navbar";
 import LoadingScreen from "./components/loading-screen/loading-screen";
 
@@ -25,9 +25,9 @@ class App extends React.Component {
         ) : (
           <>
             <div className="content">
-              <header className="fixed-top">
+              {/* <header className="fixed-top">
                 <Navbar user={user} />
-              </header>
+              </header> */}
               <main>
                 <Switch>
                   <Route path="/signup" component={Signup} />
@@ -36,7 +36,7 @@ class App extends React.Component {
                 </Switch>
               </main>
             </div>
-
+            {/* 
             <footer>
               <div className="container mt-3">
                 <div className="row text-center align-items-center">
@@ -49,7 +49,7 @@ class App extends React.Component {
                   </div>
                 </div>
               </div>
-            </footer>
+            </footer> */}
           </>
         )}
       </div>

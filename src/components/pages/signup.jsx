@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { auth, database } from "../../firebase/firebase";
-import { ReactComponent as SignupSVG } from "../../assets/signup.svg";
+import { auth, database } from "../../../firebase/firebase";
+import { ReactComponent as SignupSVG } from "../../../assets/signup.svg";
 const Signup = props => {
   const [usercredentials, setUserCredentials] = useState({
     username: "",

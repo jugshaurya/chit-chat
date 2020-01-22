@@ -1,5 +1,5 @@
 import React from "react";
-import firebase, { database } from "../firebase/firebase";
+import firebase, { database } from "../../firebase/firebase";
 import { connect } from "react-redux";
 class MessageIndividuals extends React.Component {
   state = {

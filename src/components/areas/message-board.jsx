@@ -1,15 +1,14 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { database } from "../../firebase/firebase";
 import "emoji-mart/css/emoji-mart.css";
 import { Picker } from "emoji-mart";
+
+import { database } from "../../firebase/firebase";
 
 import {
   addMessageASYNC,
   openUploadMediaForm
 } from "../../redux/messages/messages.actions";
-
-import "./message-board.styles.scss";
 
 class MessageBoard extends Component {
   state = {
@@ -28,6 +27,7 @@ class MessageBoard extends Component {
   handleSubmit = e => {
     e.preventDefault();
     this.props.addMessageASYNC({ type: "text", message: this.state.message });
+    this.setState({ message: "", openEmojiPicker: false });
   };
 
   handleMediaUpload = e => {
@@ -83,82 +83,96 @@ class MessageBoard extends Component {
   render() {
     const { currentChannel, isAddingMessage } = this.props;
     const { message, realtimeMessages, numberOfUniqueUsers } = this.state;
-    return (
-      <div id="message-board" className="col-12">
-        <div style={{ width: "60vw", height: "60vh", overflowY: "scroll" }}>
-          <h2>MessageBoard Area</h2>
-          <h3>{currentChannel && currentChannel.name}</h3>
-          <h6>{numberOfUniqueUsers} Users</h6>
 
+    return (
+      <div id="message-board">
+        <header>
+          <h4>{currentChannel && `# ${currentChannel.name}`}</h4>
+          <h6>{numberOfUniqueUsers} Users</h6>
+        </header>
+        <main>
           <ul>
             {realtimeMessages.map(message => (
               <li key={message.id}>
-                {message.image ? (
-                  <img
-                    src={message.image}
-                    alt="Uploadedimg"
-                    width="100"
-                    height="100"
-                  />
-                ) : (
-                  <div>{message.message}</div>
-                )}
-                <div>{message.createdBy.username}</div>
-                <div>{message.createdBy.avatarURL}</div>
+                <div className="avatar">
+                  <img src={message.createdBy.avatarURL} alt="user-avatar" />
+                </div>
+                <div className="user-and-message">
+                  <div className="user-and-time">
+                    <span className="user">{message.createdBy.username}</span>
+                    {/* TODO */}
+                    <span className="time"> {"2 hours ago"} </span>
+                  </div>
+                  {message.image ? (
+                    <img
+                      src={message.image}
+                      alt="Uploadedimg"
+                      width="100"
+                      height="100"
+                    />
+                  ) : (
+                    <div>{message.message}</div>
+                  )}
+                </div>
               </li>
             ))}
           </ul>
-        </div>
-        <div>
-          Add new Messages form
-          {isAddingMessage ? (
-            <div>Adding Message...</div>
-          ) : (
-            <form
-              className="card-text text-center"
-              onSubmit={this.handleSubmit}
-            >
-              <div className="form-group ml-md-3 text-md-left">
-                <label htmlFor="message">Message: </label>
-                <input
-                  id="message"
-                  className="form-control"
-                  type="text"
-                  name="message"
-                  placeholder="Enter Message"
-                  onChange={this.handleChange}
-                  value={message}
-                  required
-                />
-              </div>
-
-              <button className="btn btn-primary px-2" type="submit">
-                Add
+        </main>
+        <footer>
+          <form onSubmit={this.handleSubmit}>
+            {/* Upload Media btn */}
+            {this.props.isUploadFormOpen ? (
+              <button type="button">...</button>
+            ) : (
+              <button
+                type="button"
+                className="button-upload"
+                onClick={this.props.openUploadMediaForm}
+              >
+                <span role="emoji">➕</span>
               </button>
-            </form>
-          )}
-          <br />
-          {this.props.isUploadFormOpen ? (
-            <div>Select File from Extra section</div>
-          ) : (
+            )}
+            <input
+              id="message"
+              type="text"
+              name="message"
+              placeholder="Enter Message"
+              onChange={this.handleChange}
+              value={message}
+              required
+            />
+
+            {/* Add Emoji btn */}
             <button
-              className="btn btn-primary px-2"
               type="button"
-              onClick={this.props.openUploadMediaForm}
+              className="button-emoji"
+              onClick={this.togglePickEmoji}
             >
-              Upload Media
+              <span role="emoji">🍔</span>
             </button>
-          )}
-          <br />
-          <div onClick={this.togglePickEmoji}>Pick Emoji</div>
-          <span
-            style={{
-              visibility: `${this.state.openEmojiPicker ? "visible" : "hidden"}`
-            }}
-          >
-            <Picker onSelect={this.addEmoji} />
-          </span>
-        </div>
+            <span
+              className="emoji-picker"
+              style={{
+                visibility: `${
+                  this.state.openEmojiPicker ? "visible" : "hidden"
+                }`
+              }}
+            >
+              <Picker onSelect={this.addEmoji} />
+            </span>
+
+            {/* Add message btn */}
+            {isAddingMessage ? (
+              <button type="button" className="button-submit">
+                ...
+              </button>
+            ) : (
+              <button type="submit" className="button-submit">
+                <span role="emoji">📲</span>
+              </button>
+            )}
+          </form>
+        </footer>
       </div>
     );
   }

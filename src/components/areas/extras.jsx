@@ -11,7 +11,6 @@ import {
   closeUploadMediaForm,
   addMessageASYNC
 } from "../../redux/messages/messages.actions";
-import "./extras.styles.scss";
 class Extras extends Component {
   state = {
     newChannelName: "",
