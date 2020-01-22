@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import { auth } from "../../firebase/firebase";
 
 import { ReactComponent as SearchIcon } from "../../assets/search.svg";
@@ -32,12 +31,9 @@ class UserInfo extends Component {
           <>
             <div className="item-a">
               <img src={user.photoURL} alt="avatar" className="avatar" />
-              {/* TODO */}
-              <div className={user.stateurt ? "status green" : "status red"}>
-                sa
-              </div>
+              <div className="status green"></div>
             </div>
-            <div className="item-b" className="search-channel">
+            <div className="item-b search-channel">
               {this.state.show ? (
                 <form
                   onSubmit={this.handleSearchSubmit}
@@ -58,7 +54,7 @@ class UserInfo extends Component {
                 </>
               )}
             </div>
-            <div className="item-c" className="signout">
+            <div className="signout item-c">
               <button
                 onClick={() => auth.signOut()}
                 className="btn btn-link text-white"

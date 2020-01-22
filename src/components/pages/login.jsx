@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { auth } from "../../../firebase/firebase";
-import { ReactComponent as LoginSVG } from "../../../assets/login.svg";
+import { auth } from "../../firebase/firebase";
+import { ReactComponent as LoginSVG } from "../../assets/login.svg";
 const Login = props => {
   const [usercredentials, setUserCredentials] = useState({
     email: "",
@@ -79,7 +79,7 @@ const Login = props => {
               Submit
             </button>
             <div>
-              Create an account? <Link to="/login">Sign Up</Link>
+              Create an account? <Link to="/signup">Sign Up</Link>
             </div>
           </form>
         </div>

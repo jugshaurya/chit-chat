@@ -2,11 +2,11 @@ import React from "react";
 import { Switch, Route, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
-import Login from "./components/pages/login/login";
-import Signup from "./components/pages/signup/signup";
-import Homepage from "./components/pages/homepage/homepage";
-import Navbar from "./components/navbar/navbar";
-import LoadingScreen from "./components/loading-screen/loading-screen";
+import Login from "./components/pages/login";
+import Signup from "./components/pages/signup";
+import Homepage from "./components/pages/homepage";
+// import Navbar from "./components/navbar";
+import LoadingScreen from "./components/loading-screen";
 
 import { getUserASYNC } from "./redux/user/user.action";
 import "./App.css";

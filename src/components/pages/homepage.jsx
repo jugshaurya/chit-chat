@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import Extras from "../../areas/extras";
-import MessageBoard from "../../areas/message-board";
-import Channels from "../../areas/channels";
-import Servers from "../../areas/servers";
-import UserInfo from "../../areas/userInfo";
-import MessageIndividuals from "../../areas/message-individual";
+import Extras from "../areas/extras";
+import MessageBoard from "../areas/message-board";
+import Channels from "../areas/channels";
+import Servers from "../areas/servers";
+import UserInfo from "../areas/userInfo";
+import IndividualChannels from "../areas/individual-channels";
 
 import "./homepage.styles.scss";
 
@@ -21,8 +21,12 @@ class Homepage extends Component {
           <Servers />
         </div>
         <div className="item-b">
-          <Channels />
-          {/* <MessageIndividuals /> */}
+          <div id="channels">
+            <h3>selected server</h3>
+            <hr />
+            <Channels />
+            <IndividualChannels />
+          </div>
         </div>
         <div className="item-c">
           <MessageBoard

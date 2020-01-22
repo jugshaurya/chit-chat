@@ -1,7 +1,7 @@
 .App {
   text-align: center;
   box-sizing: border-box;
-  background: #598;
+  /* background: #598; */
 }
 
 .homepage {
@@ -33,7 +33,8 @@
 
 /* servers.jsx */
 #servers {
-  background-color: #17141d;
+  background-color: #212529;
+  border-right: 2px solid #fff;
   width: 100%;
   padding: 10px;
   height: 100%;
@@ -47,7 +48,7 @@
 
 /* channels.jsx */
 #channels {
-  background: #444;
+  background: #212529;
   color: white;
   height: 100%;
   padding: 10px;
@@ -58,7 +59,7 @@
   box-shadow: inset 2px 2px 2px #17141d, 2px 2px 2px #17141d;
 }
 
-#channels .text-channels {
+#all-text-channel .text-channels {
   display: flex;
   background: #666;
   justify-content: space-between;
@@ -66,17 +67,17 @@
   padding: 2px 10px;
 }
 
-#channels svg {
+#all-text-channel svg {
   width: 20px;
   height: auto;
 }
 
-#channels .channel-heading {
+#all-text-channel .channel-heading {
   text-transform: uppercase;
   font-size: 0.9em;
 }
 
-#channels ul {
+#all-text-channel ul {
   overflow-y: scroll;
   height: 500px;
   margin-top: 10px;
@@ -85,25 +86,84 @@
   text-align: left;
 }
 
-#channels ul::-webkit-scrollbar {
+#all-text-channel ul::-webkit-scrollbar {
   width: 0.2em;
 }
 
-#channels ul::-webkit-scrollbar-thumb {
+#all-text-channel ul::-webkit-scrollbar-thumb {
   background: linear-gradient(45deg, #fff, #000);
 }
 
-#channels ul li {
+#all-text-channel ul li {
+  cursor: pointer;
   padding: 8px;
+  color: orange;
 }
 
-#channels .highlight {
+#all-text-channel .highlight {
   background: #999;
-  opacity: 0.6;
+  /* opacity: 0.6; */
   font-weight: bold;
+  color: #fff;
 }
 
 /* Individual Messages */
+
+#indiv-channels .channel-heading {
+  text-transform: uppercase;
+  font-size: 0.9em;
+  display: flex;
+  justify-content: start;
+  background: #666;
+  padding: 2px 10px;
+}
+
+#indiv-channels ul {
+  overflow-y: scroll;
+  height: 500px;
+  margin-top: 10px;
+  list-style: none;
+  padding: 0;
+  text-align: left;
+}
+
+#indiv-channels ul::-webkit-scrollbar {
+  width: 0.2em;
+}
+
+#indiv-channels ul::-webkit-scrollbar-thumb {
+  background: linear-gradient(45deg, #fff, #000);
+}
+
+#indiv-channels ul li {
+  padding: 8px;
+  display: flex;
+  justify-content: space-between;
+  color: orange;
+  cursor: pointer;
+}
+
+#indiv-channels .online {
+  background: lightgreen;
+  width: 20px;
+  height: 20px;
+  color: lightgreen;
+  border-radius: 50%;
+}
+
+#indiv-channels .offline {
+  background: red;
+  color: red;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+}
+
+/* #indiv-channels .highlight {
+  background: #999;
+  opacity: 0.6;
+  font-weight: bold;
+} */
 
 /* Userinfo */
 #user-info {
@@ -141,17 +201,13 @@
   border-radius: 50%;
   bottom: 5px;
   right: 5px;
-  width: 24px;
+  width: 20px;
+  height: 20px;
 }
 
 #user-info .green {
-  background: green;
-  color: green;
-}
-
-#user-info .red {
-  color: red;
-  background: red;
+  background: lightgreen;
+  color: lightgreen;
 }
 
 #user-info svg {

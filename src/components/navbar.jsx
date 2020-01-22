@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { auth } from "../../firebase/firebase";
+import { auth } from "../firebase/firebase";
 // Style Import
-import { ReactComponent as ChatIcon } from "../../assets/chat.svg";
+import { ReactComponent as ChatIcon } from "../assets/chat.svg";
 import "./navbar.styles.scss";
 
 class Navbar extends Component {

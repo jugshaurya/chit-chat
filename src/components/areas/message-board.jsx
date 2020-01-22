@@ -36,31 +36,27 @@ class MessageBoard extends Component {
     this.setState({ file });
   };
 
-  componentDidMount() {
+  getCurrentChannelData = currentChannel => {
     let realtimeMessages = [];
-    if (this.props.currentChannel) {
-      const currentChannelId = this.props.currentChannel.id;
-
-      // Messages are separate from data we may want to iterate quickly
-      // but still easily paginated and queried, and organized by chat
-      // conversation ID
-      // Source: Firebase
-      console.log(`/messages/${currentChannelId}`);
-
-      database
-        .ref(`/messages/${currentChannelId}`)
-        .on("child_added", dataSnap => {
-          realtimeMessages.push({ ...dataSnap.val(), id: dataSnap.key });
-          this.setState({
-            realtimeMessages: realtimeMessages,
-            numberOfUniqueUsers: realtimeMessages.reduce((acc, message) => {
-              if (!acc.includes(message.createdBy.username)) {
-                acc.push(message.createdBy.username);
-              }
-              return acc;
-            }, []).length
-          });
+    database
+      .ref(`/messages/${currentChannel.id}`)
+      .on("child_added", dataSnap => {
+        realtimeMessages.push({ ...dataSnap.val(), id: dataSnap.key });
+        this.setState({
+          realtimeMessages: realtimeMessages,
+          numberOfUniqueUsers: realtimeMessages.reduce((acc, message) => {
+            if (!acc.includes(message.createdBy.username)) {
+              acc.push(message.createdBy.username);
+            }
+            return acc;
+          }, []).length
         });
+      });
+  };
+
+  componentDidMount() {
+    if (this.props.currentChannel) {
+      this.getCurrentChannelData(this.props.currentChannel);
     }
   }
 
@@ -129,7 +125,9 @@ class MessageBoard extends Component {
                 className="button-upload"
                 onClick={this.props.openUploadMediaForm}
               >
-                <span role="emoji">➕</span>
+                <span role="img" aria-labelledby="emoji">
+                  ➕
+                </span>
               </button>
             )}
             <input
@@ -148,7 +146,9 @@ class MessageBoard extends Component {
               className="button-emoji"
               onClick={this.togglePickEmoji}
             >
-              <span role="emoji">🍔</span>
+              <span role="img" aria-labelledby="emoji">
+                🍔
+              </span>
             </button>
             <span
               className="emoji-picker"
@@ -168,7 +168,9 @@ class MessageBoard extends Component {
               </button>
             ) : (
               <button type="submit" className="button-submit">
-                <span role="emoji">📲</span>
+                <span role="img" aria-labelledby="emoji">
+                  📲
+                </span>
               </button>
             )}
           </form>
