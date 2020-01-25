@@ -5,12 +5,11 @@ import { connect } from "react-redux";
 import Login from "./components/pages/login";
 import Signup from "./components/pages/signup";
 import Homepage from "./components/pages/homepage";
-// import Navbar from "./components/navbar";
 import LoadingScreen from "./components/loading-screen";
 
 import { getUserASYNC } from "./redux/user/user.action";
-import "./App.css";
 
+import "./App.css";
 class App extends React.Component {
   componentDidMount() {
     this.props.getUserASYNC(this.props.history);
@@ -20,38 +19,17 @@ class App extends React.Component {
     const { isFetchingUser, user } = this.props;
     return (
       <div className="App">
-        {isFetchingUser ? (
+        {/* {isFetchingUser ? (
           <LoadingScreen text="Checking user..." />
-        ) : (
-          <>
-            <div className="content">
-              {/* <header className="fixed-top">
-                <Navbar user={user} />
-              </header> */}
-              <main>
-                <Switch>
-                  <Route path="/signup" component={Signup} />
-                  <Route path="/login" component={Login} />
-                  <Route exact path="/" render={() => user && <Homepage />} />
-                </Switch>
-              </main>
-            </div>
-            {/* 
-            <footer>
-              <div className="container mt-3">
-                <div className="row text-center align-items-center">
-                  <div className="col">
-                    Made with
-                    <span role="img" aria-labelledby="emoji">
-                      💙
-                    </span>
-                    by Shaurya Singhal
-                  </div>
-                </div>
-              </div>
-            </footer> */}
-          </>
-        )}
+        ) : ( */}
+        <main>
+          <Switch>
+            <Route path="/signup" component={Signup} />
+            <Route path="/login" component={Login} />
+            <Route exact path="/" render={() => user && <Homepage />} />
+          </Switch>
+        </main>
+        {/* )} */}
       </div>
     );
   }

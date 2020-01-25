@@ -29,7 +29,6 @@ export const addMessageASYNC = message => async (dispatch, getState) => {
   const newMessageRef = database.ref(`/messages/${currentChannelId}`).push();
   const user = getState().user.user;
   if (message.type === "image") {
-    console.log(message.url, "saorywiq");
     try {
       await newMessageRef.set({
         image: message.url,
@@ -42,7 +41,6 @@ export const addMessageASYNC = message => async (dispatch, getState) => {
       });
       dispatch(addMessageASYNCSuccess());
     } catch (err) {
-      console.error(err);
       dispatch(addMessageASYNCFailure());
     }
   } else {
@@ -60,7 +58,6 @@ export const addMessageASYNC = message => async (dispatch, getState) => {
       });
       dispatch(addMessageASYNCSuccess());
     } catch (err) {
-      console.error(err);
       dispatch(addMessageASYNCFailure());
     }
   }

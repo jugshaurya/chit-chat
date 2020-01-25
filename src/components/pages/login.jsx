@@ -21,11 +21,9 @@ const Login = props => {
     e.preventDefault();
     try {
       const user = await auth.signInWithEmailAndPassword(email, password);
-      console.log(user);
       setLoginError(null);
       setLoginSuccessMessage("Signed in Successfully");
     } catch (err) {
-      console.error(err);
       setLoginError(err.message);
       setLoginSuccessMessage(null);
     }

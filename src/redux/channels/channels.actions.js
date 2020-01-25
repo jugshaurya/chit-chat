@@ -33,7 +33,7 @@ const addChannelASYNCFailure = () => ({
   type: channelsActionTypes.ADD_CHANNEL_FAILURE
 });
 
-export const addChannelASYNC = (name, description) => async (
+export const addChannelASYNC = (name, description, image) => async (
   dispatch,
   getState
 ) => {
@@ -45,13 +45,15 @@ export const addChannelASYNC = (name, description) => async (
     await newChannelRef.set({
       name,
       description,
+      image:
+        image ||
+        "https://images.unsplash.com/photo-1577389407691-a11418fb5341?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=600&ixlib=rb-1.2.1&q=80&w=800",
       createdBy: {
         userId: user.uid
       }
     });
     dispatch(addChannelASYNCSuccess());
   } catch (err) {
-    console.error(err);
     dispatch(addChannelASYNCFailure());
   }
 };

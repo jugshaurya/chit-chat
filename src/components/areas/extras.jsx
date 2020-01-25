@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { storage } from "../../firebase/firebase";
 import uuidv5 from "uuid/v5";
+
 import {
   addChannelASYNC,
   closeAddChannelForm
@@ -11,10 +12,13 @@ import {
   closeUploadMediaForm,
   addMessageASYNC
 } from "../../redux/messages/messages.actions";
+
 class Extras extends Component {
   state = {
     newChannelName: "",
     newChannelDescription: "",
+    newChanneImage:
+      "https://images.unsplash.com/photo-1577389407691-a11418fb5341?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=600&ixlib=rb-1.2.1&q=80&w=800",
     description: "",
     file: null,
     isUploading: false,
@@ -35,14 +39,14 @@ class Extras extends Component {
     e.preventDefault();
     this.props.addChannelASYNC(
       this.state.newChannelName,
-      this.state.newChannelDescription
+      this.state.newChannelDescription,
+      this.state.newChanneImage
     );
   };
 
   handleUploadMedia = e => {
     e.preventDefault();
     const file = this.state.file;
-    console.log(file.type);
     // https://firebase.google.com/docs/storage/web/upload-files
     if (
       file &&
@@ -50,9 +54,7 @@ class Extras extends Component {
         file.type === "image/jpeg" ||
         file.type === "image/jpg")
     ) {
-      console.log(file);
       const uuidvalue = uuidv5(`file.name/${Date.now()}`, uuidv5.DNS);
-      console.log(uuidvalue);
 
       var metadata = {
         contentType: file.type
@@ -92,13 +94,38 @@ class Extras extends Component {
       );
     }
   };
-
   render() {
-    const { isAddChannelFormOpen } = this.props;
+    const {
+      isAddChannelFormOpen,
+      currentChannel,
+      messagesCountPerUserArray
+    } = this.props;
     return (
-      <div id="extras-area" className="col-12">
-        <h2>Extras Area</h2>
-        {isAddChannelFormOpen ? (
+      <div className="extras">
+        <img
+          className="extrasimg"
+          src={currentChannel.image}
+          alt="channel-image"
+        />
+        <h4>{currentChannel.name}</h4>
+        <ul className="most-post-users">
+          {messagesCountPerUserArray.map(user => {
+            console.log(user);
+            return (
+              <li key={user[1].user.username}>
+                <img src={user[1].user.avatarURL} alt="user-image" />
+                <div className="user">
+                  <div className="name">
+                    <span>{user[1].user.username}</span>
+                  </div>
+                  <span className="count">{user[1].count} chats</span>
+                </div>
+              </li>
+            );
+          })}
+        </ul>
+
+        {/* {isAddChannelFormOpen ? (
           <>
             <h2> Form</h2>
             <form
@@ -128,6 +155,19 @@ class Extras extends Component {
                   placeholder="Enter Description"
                   onChange={this.handleChange}
                   value={this.state.newChannelDescription}
+                  required
+                />
+              </div>
+              <div className="form-group ml-md-3 text-md-left">
+                <label htmlFor="channelimage"> Channel Image</label>
+                <input
+                  id="channelimage"
+                  className="form-control"
+                  type="url"
+                  name="newChanneImage"
+                  placeholder="Image"
+                  onChange={this.handleChange}
+                  value={this.state.newChanneImage}
                   required
                 />
               </div>
@@ -175,7 +215,7 @@ class Extras extends Component {
           </>
         ) : (
           <h2> Add Channel Extra</h2>
-        )}
+        )} */}
       </div>
     );
   }
@@ -184,7 +224,8 @@ class Extras extends Component {
 const mapStateToProps = state => ({
   isAddChannelFormOpen: state.channels.isAddChannelFormOpen,
   isAddingMessage: state.messages.isAddingMessage, // yes this is intentional
-  isUploadFormOpen: state.messages.isUploadFormOpen
+  isUploadFormOpen: state.messages.isUploadFormOpen,
+  currentChannel: state.channels.currentChannel
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -192,8 +233,8 @@ const mapDispatchToProps = dispatch => ({
   closeUploadMediaForm: () => dispatch(closeUploadMediaForm()),
   addMessageASYNC: message => dispatch(addMessageASYNC(message)),
 
-  addChannelASYNC: (name, description) =>
-    dispatch(addChannelASYNC(name, description))
+  addChannelASYNC: (name, description, image) =>
+    dispatch(addChannelASYNC(name, description, image))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Extras);

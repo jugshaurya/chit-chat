@@ -2,8 +2,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { database } from "../../firebase/firebase";
 
-import MessageIndividual from "./individual-channels";
-
 import {
   openAddChannelForm,
   setCurrentChannel,
@@ -21,7 +19,6 @@ class Channels extends Component {
     let realtimeChannels = [];
     database.ref("/channels").on("child_added", dataSnap => {
       realtimeChannels.push({ ...dataSnap.val(), id: dataSnap.key });
-      // console.log(channels);
       this.setState({ realtimeChannels: realtimeChannels }, () => {
         this.props.getAllChannels(this.state.realtimeChannels);
       });
@@ -58,18 +55,16 @@ class Channels extends Component {
     } = this.props;
 
     return (
-      <div id="all-text-channel">
-        <div className="text-channels">
-          <div className="channel-heading">
-            Text Channels ({channels.length})
-          </div>
+      <div className="channels">
+        <div className="channels-header">
+          <div className="channel-heading">Channels ({channels.length})</div>
           <div className="add-channel">
             {!isAddChannelFormOpen && (
               <AddChannelIcon onClick={this.handleAddChannel} />
             )}
           </div>
         </div>
-        <div className="display-text-channels">
+        <div className="display-channels-header">
           <ul>
             {channels.map(channel => (
               <li
@@ -81,7 +76,7 @@ class Channels extends Component {
                 }
               >
                 <div onClick={() => setCurrentChannel(channel)}>
-                  # {channel.name}
+                  #{channel.name}
                 </div>
               </li>
             ))}

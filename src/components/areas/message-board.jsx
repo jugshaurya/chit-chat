@@ -4,11 +4,15 @@ import "emoji-mart/css/emoji-mart.css";
 import { Picker } from "emoji-mart";
 
 import { database } from "../../firebase/firebase";
-
+import Extras from "./extras";
 import {
   addMessageASYNC,
   openUploadMediaForm
 } from "../../redux/messages/messages.actions";
+
+import { ReactComponent as InfoSvg } from "../../assets/information.svg";
+import { ReactComponent as SettingSvg } from "../../assets/setting.svg";
+import { ReactComponent as SendSvg } from "../../assets/send.svg";
 
 class MessageBoard extends Component {
   state = {
@@ -16,7 +20,8 @@ class MessageBoard extends Component {
     file: "",
     realtimeMessages: [],
     numberOfUniqueUsers: 0,
-    openEmojiPicker: false
+    openEmojiPicker: false,
+    messagesCountPerUserArray: []
   };
 
   handleChange = e => {
@@ -32,7 +37,6 @@ class MessageBoard extends Component {
 
   handleMediaUpload = e => {
     const file = e.target.files[0];
-    console.log(file);
     this.setState({ file });
   };
 
@@ -49,7 +53,20 @@ class MessageBoard extends Component {
               acc.push(message.createdBy.username);
             }
             return acc;
-          }, []).length
+          }, []).length,
+          messagesCountPerUserArray: Object.entries(
+            realtimeMessages.reduce((acc, message) => {
+              if (!acc[message.createdBy.username]) {
+                acc[message.createdBy.username] = {
+                  user: message.createdBy,
+                  count: 0
+                };
+              } else {
+                acc[message.createdBy.username].count += 1;
+              }
+              return acc;
+            }, {})
+          )
         });
       });
   };
@@ -61,7 +78,6 @@ class MessageBoard extends Component {
   }
 
   addEmoji = e => {
-    console.log(e.native);
     let emoji = e.native;
     this.setState({
       message: this.state.message + emoji
@@ -76,20 +92,61 @@ class MessageBoard extends Component {
     database.ref(`/messages`).off();
   }
 
+  handleEnterSubmit = e => {
+    e.preventDefault();
+    console.log("entered");
+    // this.handleSubmit(e);
+  };
+
   render() {
-    const { currentChannel, isAddingMessage } = this.props;
-    const { message, realtimeMessages, numberOfUniqueUsers } = this.state;
+    const { currentChannel, isAddingMessage, user } = this.props;
+    const {
+      message,
+      realtimeMessages,
+      numberOfUniqueUsers,
+      messagesCountPerUserArray
+    } = this.state;
 
     return (
-      <div id="message-board">
+      <div className="message-board">
         <header>
-          <h4>{currentChannel && `# ${currentChannel.name}`}</h4>
-          <h6>{numberOfUniqueUsers} Users</h6>
+          <section className="header-left">
+            <img src={currentChannel.image} alt="channel-image" />
+            <div className="current-channel">
+              <h4>{currentChannel.name}</h4>
+              <span>{numberOfUniqueUsers} members</span>
+            </div>
+          </section>
+          <section className="header-right">
+            <span>
+              {" "}
+              <InfoSvg />{" "}
+            </span>
+            <span>
+              {/* TODO */}{" "}
+              <form>
+                <input type="text" placeholder="search" />
+              </form>{" "}
+            </span>
+            {/* Change avatar, signout, username */}
+            <span>
+              {" "}
+              <SettingSvg />{" "}
+            </span>
+          </section>
         </header>
         <main>
           <ul>
             {realtimeMessages.map(message => (
-              <li key={message.id}>
+              // TODO :change classnmae selction according to use id not avatar url
+              <li
+                key={message.id}
+                className={
+                  message.createdBy.avatarURL === this.props.user.photoURL
+                    ? "my-message"
+                    : null
+                }
+              >
                 <div className="avatar">
                   <img src={message.createdBy.avatarURL} alt="user-avatar" />
                 </div>
@@ -99,67 +156,70 @@ class MessageBoard extends Component {
                     {/* TODO */}
                     <span className="time"> {"2 hours ago"} </span>
                   </div>
+
                   {message.image ? (
-                    <img
-                      src={message.image}
-                      alt="Uploadedimg"
-                      width="100"
-                      height="100"
-                    />
+                    <div className="messagediv messageimg">
+                      <img
+                        src={message.image}
+                        alt="Uploadedimg"
+                        width="100"
+                        height="100"
+                      />
+                    </div>
                   ) : (
-                    <div>{message.message}</div>
+                    <div className="messagediv">{message.message}</div>
                   )}
                 </div>
               </li>
             ))}
           </ul>
         </main>
+        <aside>
+          <Extras messagesCountPerUserArray={messagesCountPerUserArray} />
+        </aside>
         <footer>
-          <form onSubmit={this.handleSubmit}>
-            {/* Upload Media btn */}
-            {this.props.isUploadFormOpen ? (
-              <button type="button">...</button>
-            ) : (
-              <button
-                type="button"
-                className="button-upload"
-                onClick={this.props.openUploadMediaForm}
-              >
-                <span role="img" aria-labelledby="emoji">
-                  ➕
-                </span>
-              </button>
-            )}
-            <input
-              id="message"
-              type="text"
-              name="message"
-              placeholder="Enter Message"
-              onChange={this.handleChange}
-              value={message}
-              required
-            />
+          <img src={user.photoURL} alt="user-image" />
+          <div className="form">
+            <div className="input-with-btn">
+              <input
+                id="message"
+                type="text"
+                name="message"
+                placeholder="Type something here..."
+                onChange={this.handleChange}
+                value={message}
+                required
+                // onKeyDown={this.handleEnterSubmit}
+              />
 
-            {/* Add Emoji btn */}
-            <button
-              type="button"
-              className="button-emoji"
-              onClick={this.togglePickEmoji}
-            >
-              <span role="img" aria-labelledby="emoji">
-                🍔
+              {/* Add Emoji btn */}
+              <div className="button-emoji" onClick={this.togglePickEmoji}>
+                <span role="img" aria-labelledby="emoji">
+                  🙂
+                </span>
+              </div>
+              <span
+                className="emoji-picker"
+                style={{
+                  display: `${this.state.openEmojiPicker ? "inline" : "none"}`
+                }}
+              >
+                <Picker onSelect={this.addEmoji} />
               </span>
-            </button>
-            <span
-              className="emoji-picker"
-              style={{
-                visibility: `${
-                  this.state.openEmojiPicker ? "visible" : "hidden"
-                }`
-              }}
-            >
-              <Picker onSelect={this.addEmoji} />
-            </span>
+              {/* Upload Media btn */}
+              {this.props.isUploadFormOpen ? (
+                <div>...</div>
+              ) : (
+                <div
+                  className="button-upload"
+                  onClick={this.props.openUploadMediaForm}
+                >
+                  <span role="img" aria-labelledby="emoji">
+                    📎
+                  </span>
+                </div>
+              )}
+            </div>
 
             {/* Add message btn */}
             {isAddingMessage ? (
@@ -167,13 +227,15 @@ class MessageBoard extends Component {
                 ...
               </button>
             ) : (
-              <button type="submit" className="button-submit">
-                <span role="img" aria-labelledby="emoji">
-                  📲
-                </span>
+              <button
+                type="submit"
+                className="button-submit"
+                onClick={this.handleSubmit}
+              >
+                <SendSvg />
               </button>
             )}
-          </form>
+          </div>
         </footer>
       </div>
     );
@@ -182,7 +244,8 @@ class MessageBoard extends Component {
 
 const mapStateToProps = state => ({
   isAddingMessage: state.messages.isAddingMessage,
-  isUploadFormOpen: state.messages.isUploadFormOpen
+  isUploadFormOpen: state.messages.isUploadFormOpen,
+  user: state.user.user
 });
 
 const mapDispatchToProps = dispatch => ({

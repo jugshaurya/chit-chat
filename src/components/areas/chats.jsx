@@ -3,7 +3,7 @@ import firebase, { database } from "../../firebase/firebase";
 import { connect } from "react-redux";
 
 import { setCurrentChannel } from "../../redux/channels/channels.actions";
-class IndividualChannels extends React.Component {
+class Chats extends React.Component {
   state = {
     otherUsers: [],
     realtimeMessages: [],
@@ -55,8 +55,6 @@ class IndividualChannels extends React.Component {
     });
 
     database.ref("/status").on("child_changed", dataSnap => {
-      console.log(dataSnap.val(), dataSnap.key);
-
       const otherUsers = this.state.otherUsers.map(user =>
         user.uid === dataSnap.key
           ? {
@@ -71,8 +69,6 @@ class IndividualChannels extends React.Component {
 
     database.ref("/status").on("child_added", dataSnap => {
       const otherUsers = this.state.otherUsers.map(user => {
-        console.log(dataSnap.key, user.uid);
-
         return user.uid === dataSnap.key
           ? {
               ...user,
@@ -86,26 +82,34 @@ class IndividualChannels extends React.Component {
   };
 
   getChannelFromUser = user => {
-    const talkingUser = this.props.user;
-    const listeningUser = user;
-    console.log(listeningUser);
+    const talkingUserId = this.props.user.uid;
+    const listeningUserId = user.uid;
     const channelId =
-      talkingUser < listeningUser
-        ? `${talkingUser.uid}/${listeningUser.uid}`
-        : `${listeningUser.uid}/${talkingUser.uid}`;
+      talkingUserId < listeningUserId
+        ? `${talkingUserId}/${listeningUserId}`
+        : `${listeningUserId}/${talkingUserId}`;
     // return channel here not id
     return {
       id: channelId,
-      name: listeningUser.username
+      name: user.username
     };
   };
 
+  getDate(timestamp) {
+    const dateObj = new Date(timestamp * 1000);
+    const year = dateObj.getFullYear();
+    const month = dateObj.getUTCMonth();
+    const day = dateObj.getUTCDay();
+    return `${day}/${month}/${year}`;
+  }
+
   render() {
     const { otherUsers } = this.state;
+    const { currentChannel } = this.props;
     return (
-      <div id="indiv-channels">
-        <div className="channel-heading">
-          Private Messages ({otherUsers.length - 1})
+      <div className="chats">
+        <div className="chats-heading">
+          Chats ({otherUsers.length > 0 ? otherUsers.length - 1 : 0})
         </div>
         <div className="display-indiv-channels">
           <ul>
@@ -114,25 +118,37 @@ class IndividualChannels extends React.Component {
               .map(user => (
                 <li
                   key={user.uid}
-                  // className={
-                  //   currentChannel && currentChannel.id === this.getChannelFromUser(user).uid
-                  //     ? "highlight"
-                  //     : null
-                  // }
-
+                  className={
+                    currentChannel &&
+                    currentChannel.id === this.getChannelFromUser(user).id
+                      ? "highlight"
+                      : null
+                  }
                   onClick={() =>
                     this.props.setCurrentChannel(this.getChannelFromUser(user))
                   }
                 >
-                  <div className="username">
-                    <span role="img" aria-labelledby="emoji">
-                      📣
-                    </span>{" "}
-                    {user.username}
+                  <div className="user">
+                    <div className="user-image">
+                      <img src={user.avatarURL} alt="useravatar" />
+                      <div
+                        className={
+                          user.state === "online" ? "online" : "offline"
+                        }
+                      ></div>
+                    </div>
+                    <div className="user-info">
+                      <div className="another">
+                        <div className="val">{user.username}</div>
+                        <div className="date">
+                          {this.getDate(user.last_changed)}
+                        </div>
+                      </div>
+                      <div className="desc">
+                        Lorem ipsum dolor sit amet ametamet ...{" "}
+                      </div>
+                    </div>
                   </div>
-                  <div
-                    className={user.state === "online" ? "online" : "offline"}
-                  ></div>
                 </li>
               ))}
           </ul>
@@ -143,11 +159,12 @@ class IndividualChannels extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  user: state.user.user
+  user: state.user.user,
+  currentChannel: state.channels.currentChannel
 });
 
 const mapDispatchToProps = dispatch => ({
   setCurrentChannel: channel => dispatch(setCurrentChannel(channel))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(IndividualChannels);
+export default connect(mapStateToProps, mapDispatchToProps)(Chats);

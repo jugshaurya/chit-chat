@@ -43,7 +43,6 @@ const Signup = props => {
       setSignUpError(null);
       setSignUpSuccessMessage("User Created Successfully");
     } catch (err) {
-      console.error(err);
       setSignUpError(err.message);
       setSignUpSuccessMessage(null);
     }
